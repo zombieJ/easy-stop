@@ -1,6 +1,6 @@
 {
   "name": "easy-stop",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A hook to handle server (such as express) start/stop management",
   "main": "index.js",
   "scripts": {
@@ -8,6 +8,7 @@
   },
   "author": "zombieJ",
   "license": "Apache-2.0",
+  "bin": "./index",
   "dependencies": {
     "ps-node": "^0.1.4"
   },
