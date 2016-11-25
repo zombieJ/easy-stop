@@ -1,0 +1,11 @@
+#!/usr/bin/env node
+
+'use strict';
+
+var easyStop = require('./index');
+
+// Cli check
+var args = process.argv.slice(2);
+if(args[0] === 'stop') {
+	easyStop.stop(args[1], args[2]);
+}
