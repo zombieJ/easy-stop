@@ -46,15 +46,21 @@ function stop(pidDirPath, pidFileName) {
 	var pid = getPrevPid(pidPath);
 
 	return new Promise(function (resolve, reject) {
-		if(!pid) {
+		if(!pid || pid === -1) {
 			console.log('No pid found. Skipped!');
 			resolve('-1');
+			return;
 		}
 
 		ps.kill(pid, { signal: 9 }, function (err) {
 			if(err) {
+				err = err + '';
 				console.log('Stop failed:', err);
-				reject(pid);
+				if(err.indexOf('not found') === -1) {
+					reject(pid);
+				} else {
+					resolve(pid);
+				}
 				return;
 			}
 
@@ -65,13 +71,21 @@ function stop(pidDirPath, pidFileName) {
 	});
 }
 
-module.exports = {
-	getPidPath: getPidPath,
-	start: start,
-	stop: stop,
-	restart: function (pidDirPath, pidFileName) {
-		return stop(pidDirPath, pidFileName).then(function () {
-			return start(pidDirPath, pidFileName);
-		});
-	}
-};
+if(module) {
+	module.exports = {
+		getPidPath: getPidPath,
+		start: start,
+		stop: stop,
+		restart: function (pidDirPath, pidFileName) {
+			return stop(pidDirPath, pidFileName).then(function () {
+				return start(pidDirPath, pidFileName);
+			});
+		}
+	};
+}
+
+// Cli check
+var args = process.argv.slice(2);
+if(args[0] === 'stop') {
+	stop(args[1], args[2]);
+}

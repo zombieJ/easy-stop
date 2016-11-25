@@ -1,6 +1,6 @@
 {
   "name": "easy-stop",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A hook to handle server (such as express) start/stop management",
   "main": "index.js",
   "scripts": {
